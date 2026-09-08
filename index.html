@@ -146,6 +146,13 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 .right{margin-left:auto; display:flex; align-items:center; gap:10px}
 .meter{display:flex; align-items:center; gap:5px;
   font-family:"DotGothic16",monospace; font-size:10px; color:var(--ink-soft); letter-spacing:.08em}
+.hpwrap{display:flex; align-items:center; gap:3px}
+.hpnum{font-family:"DotGothic16",monospace; font-size:15px; color:var(--ink);
+  font-variant-numeric:tabular-nums; font-weight:400}
+.hpmax{font-family:"DotGothic16",monospace; font-size:9px; color:var(--ink-soft)}
+.hpouter{width:52px; height:6px; border-radius:3px; background:var(--stone-dim); overflow:hidden}
+.hpouter i{display:block; height:100%; border-radius:3px; background:var(--foe); transition:width .3s}
+.strip.self .hpouter i{background:var(--self)}
 .hearts{display:flex; gap:3px}
 .heart{width:9px; height:9px; border-radius:2px; transform:rotate(45deg); background:var(--foe)}
 .strip.self .heart{background:var(--self)}
@@ -153,9 +160,9 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 .stnum{font-size:16px; color:var(--stone)}
 
 /* ---- 盤面 ---- */
-.board{display:flex; flex-direction:column; gap:5px; padding:10px;
+.board{display:flex; flex-direction:column; gap:4px; padding:8px;
   border-radius:14px; background:var(--surface-2); border:1px solid var(--rule)}
-.grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px}
+.grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px}
 /* グリッドの子は既定で min-width:auto なので、中身の最小幅で横に膨らんでしまう。
    狭い画面でも3列が必ず収まるように潰しておく。 */
 .grid > *{min-width:0}
@@ -168,16 +175,16 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 .mid span{font-family:"DotGothic16",monospace; font-size:8.5px; color:var(--ink-soft); letter-spacing:.2em}
 .void{visibility:hidden}
 
-.slot{position:relative; min-height:84px; border-radius:10px; padding:6px;
-  display:flex; flex-direction:column; gap:4px; background:var(--surface);
+.slot{position:relative; min-height:76px; border-radius:10px; padding:5px;
+  display:flex; flex-direction:column; gap:2px; background:var(--surface);
   border:1px solid var(--rule); text-align:left; font-weight:400; width:100%;
   transition:transform .12s, box-shadow .12s, border-color .12s}
 
 /* ---- モンスターがカードの上に立ち上がって見えるようにする ---- */
-.stage{position:relative; height:48px; display:flex; align-items:flex-end;
-  justify-content:center; perspective:200px; margin-bottom:1px}
+.stage{position:relative; height:40px; display:flex; align-items:flex-end;
+  justify-content:center; perspective:200px; margin-bottom:0}
 /* 足元のカード。奥に倒して置くことで台座に見せる */
-.pedestal{position:absolute; bottom:1px; left:50%; width:48px; height:30px; margin-left:-24px;
+.pedestal{position:absolute; bottom:1px; left:50%; width:42px; height:24px; margin-left:-21px;
   border-radius:5px; background:var(--surface-2); border:1px solid var(--rule);
   transform:rotateX(64deg); transform-origin:bottom center;
   box-shadow:0 1px 0 var(--rule)}
@@ -186,19 +193,19 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 /* 台座に落ちる影 */
 .shadow{position:absolute; bottom:6px; left:50%; width:26px; height:7px; margin-left:-13px;
   border-radius:50%; background:var(--shadow); filter:blur(2px)}
-.figure{position:relative; font-size:27px; line-height:1; z-index:1;
+.figure{position:relative; font-size:23px; line-height:1; z-index:1;
   filter:drop-shadow(0 3px 2px var(--shadow));
   animation:hover 3.2s ease-in-out infinite}
-@keyframes hover{0%,100%{transform:translateY(-9px)} 50%{transform:translateY(-13px)}}
+@keyframes hover{0%,100%{transform:translateY(-7px)} 50%{transform:translateY(-11px)}}
 /* 出したばかりのときに せり上がる */
 .figure.rise{animation:rise .55s cubic-bezier(.2,1.4,.4,1) both, hover 3.2s ease-in-out .55s infinite}
 @keyframes rise{
   0%{transform:translateY(6px) scale(.3); opacity:0}
-  60%{transform:translateY(-14px) scale(1.12); opacity:1}
-  100%{transform:translateY(-9px) scale(1)}
+  60%{transform:translateY(-12px) scale(1.12); opacity:1}
+  100%{transform:translateY(-7px) scale(1)}
 }
 /* 攻撃したときに前へ踏み込む */
-@keyframes lunge{0%,100%{transform:translateY(-9px)} 40%{transform:translateY(-9px) scale(1.18)}}
+@keyframes lunge{0%,100%{transform:translateY(-7px)} 40%{transform:translateY(-7px) scale(1.18)}}
 .figure.act{animation:lunge .38s ease-out}
 
 /* ---- 演出 ---- */
@@ -253,7 +260,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   35%{box-shadow:0 0 0 3px var(--good), 0 0 16px var(--good)}
 }
 @media (prefers-reduced-motion:reduce){
-  .figure,.figure.rise,.figure.act{animation:none !important; transform:translateY(-9px) !important}
+  .figure,.figure.rise,.figure.act{animation:none !important; transform:translateY(-7px) !important}
   .pop{animation:popup-still 1.1s linear forwards}
   @keyframes popup-still{0%,80%{opacity:1} 100%{opacity:0}}
   .hit,.heart-fx{animation-duration:.5s}
@@ -273,16 +280,26 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 .plate{width:28px; height:28px; border-radius:50%; background:var(--surface-2);
   border:1px solid var(--rule); display:grid; place-items:center; font-size:16px; flex-shrink:0}
 .mname{font-size:11px; font-weight:700; line-height:1.2; overflow-wrap:anywhere}
-.lv{font-family:"DotGothic16",monospace; font-size:9px; color:var(--stone); letter-spacing:.04em}
+/* レベルは数字をはっきり出す */
+.lv{display:flex; align-items:center; gap:3px; font-family:"DotGothic16",monospace;
+  font-size:9px; color:var(--ink-soft); letter-spacing:.04em; flex-wrap:wrap}
+.lvnum{background:var(--stone); color:#3A2A18; border-radius:4px; padding:0 4px;
+  font-size:10.5px; line-height:1.35; white-space:nowrap}
+.lvnum.max{background:var(--foe); color:#FFFDF7}
+/* このモンスターがいま何ダメージ与えられるか */
+.dmgline{font-family:"DotGothic16",monospace; font-size:9px; color:var(--ink-soft);
+  line-height:1.45}
+.dmgline b{color:var(--ink)}
 .hpbar{height:5px; border-radius:3px; background:var(--stone-dim); overflow:hidden}
 .hpbar i{display:block; height:100%; border-radius:3px; background:var(--ink-soft); transition:width .25s}
 .slot[data-side="self"] .hpbar i{background:var(--self)}
 .slot[data-side="foe"] .hpbar i{background:var(--foe)}
-.stats{display:flex; gap:3px; align-items:center;
-  font-family:"DotGothic16",monospace; font-size:9.5px; font-variant-numeric:tabular-nums}
+.stats{display:flex; gap:2px; align-items:center; flex-wrap:wrap;
+  font-family:"DotGothic16",monospace; font-size:9px; font-variant-numeric:tabular-nums}
 .chip{border:1px solid var(--rule); border-radius:4px; padding:0 3px; background:var(--surface-2)}
 .chip.p{color:var(--self)}
 .chip.d{color:var(--foe)}
+.chip.m{color:var(--stone); border-color:var(--stone)}
 .slot[data-side="foe"] .chip.p{color:var(--foe)}
 .hpt{margin-left:auto; color:var(--ink-soft)}
 .veil{position:absolute; inset:0; border-radius:10px; display:grid; place-items:center;
@@ -297,7 +314,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   background:var(--ink-soft); color:var(--paper); display:grid; place-items:center;
   font-size:10px; border:2px solid var(--surface)}
 
-.mastercell{position:relative; min-height:84px; border-radius:10px; padding:6px;
+.mastercell{position:relative; min-height:76px; border-radius:10px; padding:6px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
   background:var(--surface); border:2px solid var(--rule); width:100%; text-align:center}
 .mastercell.foe{border-color:var(--foe)}
@@ -307,6 +324,56 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 .mlabel{font-family:"DotGothic16",monospace; font-size:8.5px; letter-spacing:.1em; color:var(--ink-soft)}
 .shield{font-family:"DotGothic16",monospace; font-size:9px; padding:0 4px; border-radius:4px;
   border:1px solid var(--rule); background:var(--surface-2); color:var(--ink-soft)}
+
+/* ---- コイントス ---- */
+.coinwrap{display:flex; justify-content:center; padding:14px 0}
+.coin{font-size:64px; line-height:1; filter:drop-shadow(0 4px 6px var(--shadow))}
+.coin.spin{animation:cointoss 1.1s cubic-bezier(.3,.1,.3,1)}
+@keyframes cointoss{
+  0%{transform:translateY(0) rotateY(0) scale(1)}
+  35%{transform:translateY(-46px) rotateY(900deg) scale(1.12)}
+  70%{transform:translateY(-14px) rotateY(1620deg) scale(1.05)}
+  100%{transform:translateY(0) rotateY(2160deg) scale(1)}
+}
+.tossresult{min-height:52px; text-align:center; font-family:"Kiwi Maru",serif;
+  font-size:17px; line-height:1.7}
+.tossresult b{color:var(--self)}
+.tossresult .sub{display:block; font-family:"DotGothic16",monospace;
+  font-size:11px; color:var(--ink-soft); margin-top:3px}
+
+/* ---- 手札の入れ替え ---- */
+.mulstat{font-family:"DotGothic16",monospace; font-size:11.5px; color:var(--ink-soft);
+  text-align:center; line-height:1.8}
+.mulstat b{color:var(--stone); font-size:15px}
+#mul-hand .card.sel{border-color:var(--foe); border-width:2px; transform:translateY(-9px); opacity:.6}
+#mul-hand .card .swaptag{font-family:"DotGothic16",monospace; font-size:9px; color:var(--foe)}
+
+/* ---- のこり時間 ---- */
+.clock{margin-left:auto; font-size:12px; color:var(--ink-soft); white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.clock b{color:var(--ink); font-size:16px}
+.clock.warn b{color:var(--foe)}
+.clock.warn{animation:blink 1s steps(2,end) infinite}
+@keyframes blink{50%{opacity:.35}}
+.topbar .rd{margin-left:10px}
+
+/* ---- ターンのはじまりの帯 ---- */
+.turnbanner{padding:11px 14px; border-radius:12px; text-align:center;
+  font-family:"Kiwi Maru",serif; font-size:17px; letter-spacing:.06em;
+  background:var(--self); color:#FFFDF7; animation:bannerIn 1.6s ease-out forwards}
+.turnbanner.foe{background:var(--foe)}
+.turnbanner[hidden]{display:none !important}
+@keyframes bannerIn{
+  0%{transform:translateY(-8px); opacity:0}
+  12%{transform:translateY(0); opacity:1}
+  75%{opacity:1}
+  100%{opacity:0; transform:translateY(-4px)}
+}
+
+/* ---- マスター回復 ---- */
+.heal[hidden]{display:none !important}
+button.heal{border-color:var(--good); color:var(--good)}
+button.heal:hover:not(:disabled){background:var(--self-soft)}
 
 /* ---- カード情報 ---- */
 .info{display:flex; flex-direction:column; gap:7px; padding:10px 12px; border-radius:12px;
@@ -501,6 +568,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         <span class="d">やったことがある人はこちら。</span>
       </button>
     </div>
+    <button class="ghost small" id="askrules-back">もどる</button>
   </section>
 
   <!-- ============ ルール説明 ============ -->
@@ -531,6 +599,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         <span class="d">すぐ遊びたい人はこちら。</span>
       </button>
     </div>
+    <button class="ghost small" id="asktuto-back">もどる</button>
   </section>
 
   <!-- ============ モード ============ -->
@@ -539,13 +608,14 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     <div class="choices">
       <button class="choice" id="mode-cpu">
         <span class="t">ひとりで練習（CPU対戦）</span>
-        <span class="d">つよさを3段階から選べます。ルールを覚えるならこちら。</span>
+        <span class="d">つよさを5段階から選べます。ルールを覚えるならこちら。</span>
       </button>
       <button class="choice" id="mode-human">
         <span class="t">ふたりで対戦</span>
         <span class="d">1台を交互に操作します。手札を隠すため、ターンの間に受け渡し画面をはさみます。</span>
       </button>
     </div>
+    <button class="ghost small" id="mode-back">もどる</button>
   </section>
 
   <!-- ============ CPUの強さ ============ -->
@@ -577,7 +647,30 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     </div>
   </section>
 
-  <!-- ============ デッキ作成 ============ -->  <section class="screen" id="scr-builder" hidden>
+  <!-- ============ コイントス ============ -->
+  <section class="screen" id="scr-toss" hidden>
+    <h2>先攻を きめます</h2>
+    <p class="lead">コインを投げて、どちらが先に動くかを決めます。<br>
+      先攻は <b>1ターン目だけ カードを引きません</b>（そのぶん先に動けるので、有利になりすぎないようにしています）。</p>
+    <div class="coinwrap"><div class="coin" id="toss-coin">🪙</div></div>
+    <div class="tossresult" id="toss-result"></div>
+    <button class="primary" id="toss-go">コインを なげる</button>
+  </section>
+
+  <!-- ============ 手札の入れ替え ============ -->
+  <section class="screen" id="scr-mulligan" hidden>
+    <h2 id="mul-title">手札を 入れ替えますか？</h2>
+    <p class="lead" id="mul-lead"></p>
+    <div class="hand" id="mul-hand"></div>
+    <div class="mulstat" id="mul-stat"></div>
+    <div class="bar">
+      <button class="ghost small" id="mul-none">このままで いく</button>
+      <button class="primary small" id="mul-go">えらんだカードを 入れ替える</button>
+    </div>
+  </section>
+
+  <!-- ============ デッキ作成 ============ -->
+  <section class="screen" id="scr-builder" hidden>
     <h2>デッキを作る</h2>
     <div class="builder">
       <div class="bstat">
@@ -597,9 +690,11 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   <section class="screen" id="scr-game" hidden>
     <div class="topbar">
       <span class="name" id="g-who">たいせん</span>
+      <span class="clock mono" id="g-clock"></span>
       <span class="rd mono" id="g-round"></span>
       <button class="ghost snd" id="snd-game" title="音のオンオフ">🔊</button>
     </div>
+    <div class="turnbanner" id="g-banner" hidden></div>
     <div class="coach" id="g-coach" hidden>
       <span class="step" id="coach-step"></span>
       <div class="msg" id="coach-msg"></div>
@@ -617,6 +712,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       <button id="act-move" disabled>いどう</button>
       <button id="act-end" class="primary">ターンおわり</button>
     </div>
+    <button class="ghost small heal" id="act-heal" hidden>マスターを かいふく（石20 → HP+1）</button>
     <div class="handwrap">
       <div class="handhead" id="g-handhead"></div>
       <div class="hand" id="g-hand"></div>
@@ -1060,7 +1156,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     { id:2, name:"プルンオー", species:"キングスライム系", element:"みず", art:"🫠", set:1, range:"melee", super:true, base:1,
       lv:{3:{hp:6,atk:P(3)}},
-      skill:{ name:"スライムがえし", text:"好きなモンスター1体を Lv1のプルンの姿に変えてしまう。HPは変身前のまま。", cost:0, range:"anywhere", effect:"morph", impl:false },
+      skill:{ name:"スライムがえし", text:"相手モンスター1体を Lv1のプルンの姿に変えてしまう。いまのHPは引き継ぐ（プルンの最大HPが上限）。もとには戻らない。", cost:0, range:"anywhere", effect:"morph", into:1 },
       text:"プルンたちの王。相手をただのプルンの姿に戻してしまう。" },
 
     { id:3, name:"ロンドラ", species:"りゅう系", element:"かぜ", art:"🦕", set:1, range:"melee",
@@ -1187,12 +1283,12 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     { id:36, name:"ノロイビト", species:"ゆうれい系", element:"ゴースト", art:"👻", set:2, range:"melee",
       lv:{1:{hp:1,atk:P(2)}, 2:{hp:1,atk:P(3)}}, superOf:37,
-      onDeath:{ effect:"curse", amount:{1:2,2:3}, impl:false },
+      onDeath:{ effect:"curse", amount:{1:2,2:3} },
       text:"HP1。倒されると、自分を倒した相手に呪いを残して消える。" },
 
     { id:37, name:"ダイノロイ", species:"だいゆうれい系", element:"ゴースト", art:"🫥", set:2, range:"melee", super:true, base:36,
       lv:{3:{hp:3,atk:P(4)}},
-      onDeath:{ effect:"curse", amount:{3:3}, impl:false },
+      onDeath:{ effect:"curse", amount:{3:3} },
       text:"倒しても終わらない。攻撃するたび3ダメージの呪いが残る。" },
 
     { id:38, name:"バチバチドリ", species:"とり系", element:"でんき", art:"🐦‍⬛", set:2, range:"melee",
@@ -1219,8 +1315,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     { id:42, name:"オニガシラ", species:"だいおに系", element:"かくとう", art:"👺", set:2, range:"melee", super:true, base:41,
       lv:{3:{hp:6,atk:P(3)}},
-      skill:{ name:"いれかえのぎ", text:"相手モンスターのレベルを下げ、味方モンスターのレベルを上げる。", cost:1, range:"anywhere", effect:"levelSwap", impl:false },
-      text:"相手を落とし、味方を上げる。ストーン1でレベルを入れ替える。" },
+      skill:{ name:"いれかえのぎ", text:"相手モンスター1体のレベルを1つ下げ、そのぶん いちばんレベルの低い味方モンスターを1つ上げる（石はかからない）。", cost:1, range:"anywhere", effect:"levelSwap" },
+      text:"相手を引きずり下ろし、代わりに味方を引き上げる。石1でレベルを入れ替える。" },
 
     { id:43, name:"ショウメツマ", species:"あくま系", element:"ゴースト", art:"🦹", set:2, range:"melee",
       lv:{1:{hp:5,atk:P(2)}, 2:{hp:5,atk:P(3)}},
@@ -1239,7 +1335,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     { id:46, name:"オドケマ", species:"どうけし系", element:"ひかり", art:"🤡", set:2, range:"melee",
       lv:{1:{hp:6,atk:P(2)}, 2:{hp:6,atk:P(3)}},
-      skill:{ name:"みせびらかし", text:"相手1体に「自分しか攻撃できない」状態をつける。マスターにも使える。", cost:2, range:"anywhere", effect:"taunt" },
+      skill:{ name:"みせびらかし", text:"相手モンスター1体に「自分しか攻撃できない」状態をつける。壁を無視して殴ってくる相手を、こちらに引きつけられる。", cost:2, range:"anywhere", effect:"taunt" },
       text:"おどけて相手の気を引く道化。「自分しか攻撃できない」状態を押しつける。マスターにも効く。" },
 
     { id:47, name:"ドクガエル", species:"かえる系", element:"どく", art:"🐸", set:2, range:"melee",
@@ -1271,9 +1367,9 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     { id:51, name:"メザメドリ", species:"とり系", element:"ひかり", art:"🐣", set:2, range:"melee",
       lv:{1:{hp:5,atk:P(2)}, 2:{hp:5,atk:P(3)}},
-      skill:{ name:"めざましのこえ", text:"じゅんび中の味方1体を すぐ登場させる。Lv2ならストーンがいらない。", cost:1, range:"ally", effect:"wake", costLv:{1:1,2:0} },
+      skill:{ name:"めざましのこえ", text:"じゅんび中のモンスター1体を すぐ登場させる。相手のモンスターも起こせる（起こした相手はすぐには動けない）。Lv2ならストーンがいらない。", cost:1, range:"awaken", effect:"wake", costLv:{1:1,2:0} },
       onDeath:{ effect:"wakeAll" },
-      text:"夜明けを告げる鳥。じゅんび中の味方をすぐ登場させ、倒されたときは全員をたたき起こす。" },
+      text:"夜明けを告げる鳥。じゅんび中のモンスターを すぐ起こす。倒されると その断末魔で、敵味方すべてのじゅんび中が目を覚ます。" },
 
     { id:52, name:"アライマジン", species:"うみまじん系", element:"みず", art:"🧜", set:2, range:"melee",
       lv:{1:{hp:5,atk:P(2)}, 2:{hp:5,atk:P(2)}},
@@ -1282,8 +1378,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     { id:53, name:"ワープマジン", species:"いせい系", element:"エスパー", art:"👽", set:2, range:"melee",
       lv:{1:{hp:4,atk:P(2)}},
-      skill:{ name:"いれかえワープ", text:"場のモンスター2体の位置を入れ替える。", cost:3, range:"anywhere", effect:"swap" },
-      text:"星の彼方から来た者。空間をねじって2体の位置を入れ替える。" },
+      skill:{ name:"いれかえワープ", text:"じぶんと 味方モンスター1体の位置を入れ替える。じゅんび中の味方とも入れ替えられる。", cost:3, range:"allyAny", effect:"swap" },
+      text:"星の彼方から来た者。空間をねじって、味方と自分の位置を入れ替える。" },
 
     { id:54, name:"セイジョ", species:"だいそうりょ（人）", element:"ひかり", art:"👸", set:2, range:"melee",
       lv:{1:{hp:4,atk:P(2)}, 2:{hp:2,atk:null}},
@@ -1324,7 +1420,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
   var RULES = {
     masterHp: 5,
-    masterShield: 2,     // 常時 -2P
+    masterShield: 2,     // マスターの常時のたて（-2P）
+    chargeEnabled: true, // きあいだめ（通常攻撃+1P／受けるP攻撃-1）
     startingStones: 3,   // 開始時、両者3個
     stonesPerTurn: 3,
     summonCost: 1,
@@ -1336,6 +1433,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     maxCopies: 3,
     maxRounds: 30,       // 30ラウンドで判定
     selfKillPenalty: 1,  // 味方を自分で倒すとマスターHP-1
+    masterHealCost: 20,  // ストーンを払ってマスターを回復する
+    masterHealAmount: 1,
     // §10-1: 「隣接」に斜めを含めるか。false にすると通常攻撃はマスターに届かなくなる
     meleeIncludesDiagonal: true
   };
@@ -1351,6 +1450,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       hand: [],
       discard: [],
       field: { front: [null, null], back: [null, null] },
+      mulliganDone: false,      // 最初の手札入れ替えを使ったか
       masterStatus: {}          // taunt など
     };
   }
@@ -1384,10 +1484,12 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     var seed = opts.seed === undefined ? 12345 : opts.seed;
     var rng = opts.rng || mulberry32(seed);
 
+    var first = opts.first === 1 ? 1 : 0;
     var s = {
       turn: 1,                  // 半ターン（プレイヤー1人分）の通し番号
       round: 1,                 // 両者が1回ずつ動いて1ラウンド
-      active: 0,
+      firstPlayer: first,       // コイントスで決まった先攻
+      active: first,
       players: [makePlayer(opts.nameA || "プレイヤー1", shuffle(deckA, rng)),
                 makePlayer(opts.nameB || "プレイヤー2", shuffle(deckB, rng))],
       pending: null,            // レベルアップ待ち { owner, unit, rights, selfKill }
@@ -1500,19 +1602,21 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       return { ok: false, why: "手札が" + p.hand.length + "枚。" + RULES.handLimit + "枚以下にしてから終了する" };
     }
 
-    // 何も行動しなかったモンスターに きあいだめ
-    eachUnit(p, function (u) {
-      var card = root.cardById(u.cardId);
-      var full = card.twoActions ? 2 : 1;
-      if (u.ready && u.actionsLeft === full) {
-        u.charged = true;
-        log(s, p.name + "／" + unitName(u) + " が きあいだめ");
-      }
-    });
+    // きあいだめは Ver.1 では使わない（ダメージを増減させないため）
+    if (RULES.chargeEnabled) {
+      eachUnit(p, function (u) {
+        var card = root.cardById(u.cardId);
+        var full = card.twoActions ? 2 : 1;
+        if (u.ready && u.actionsLeft === full) {
+          u.charged = true;
+          log(s, p.name + "／" + unitName(u) + " が きあいだめ");
+        }
+      });
+    }
 
     s.active = 1 - s.active;
     s.turn++;
-    if (s.active === 0) {
+    if (s.active === s.firstPlayer) {
       s.round++;
       if (s.round > RULES.maxRounds) {
         judge(s, RULES.maxRounds + "ラウンド終了");
@@ -1605,6 +1709,22 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         });
         break;
 
+      case "allyAny":
+        // 準備中の味方も対象にできる（位置の入れ替えなど）
+        eachUnit(me, function (u, row, col) {
+          out.push({ kind: "unit", owner: ownerIdx, row: row, col: col, unit: u });
+        });
+        break;
+
+      case "awaken":
+        // じゅんび中のモンスターだけを対象にする。敵味方どちらでもよい
+        [ownerIdx, foeIdx].forEach(function (pi) {
+          eachUnit(s.players[pi], function (u, row, col) {
+            if (!u.ready) { out.push({ kind: "unit", owner: pi, row: row, col: col, unit: u }); }
+          });
+        });
+        break;
+
       case "foeMaster":
         masterT(0);
         break;
@@ -1656,7 +1776,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     var u = target.unit;
     if (power.d !== undefined) { dmg = power.d; }
-    else { dmg = Math.max(0, power.p - (u.charged ? 1 : 0)); }
+    else { dmg = Math.max(0, power.p - (RULES.chargeEnabled && u.charged ? 1 : 0)); }
     if (u.charged) { u.charged = false; }   // 攻撃を受けると解除
     u.hp -= dmg;
     log(s, unitName(u) + " に" + dmg + "ダメージ（残HP" + Math.max(0, u.hp) + "）");
@@ -1688,10 +1808,27 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         owner.stones -= u.stones;           // 変身なので石は返らず引き継ぐ
         log(s, unitName(u) + " は " + unitName(nu) + " に変身した");
       } else if (card.onDeath.effect === "wakeAll") {
-        eachUnit(owner, function (x) { if (!x.ready) { x.ready = true; } });
-        log(s, owner.name + " の準備中モンスターが全員登場した");
+        // 倒れぎわに鳴らす鐘。敵味方を問わず、じゅんび中のモンスターが全員起きる
+        var woke = 0;
+        s.players.forEach(function (pl) {
+          eachUnit(pl, function (x) {
+            if (!x.ready) {
+              x.ready = true;
+              x.actionsLeft = 0;          // 起きた直後は動けない
+              woke++;
+            }
+          });
+        });
+        log(s, unitName(u) + " の断末魔で、じゅんび中のモンスター" + woke + "体が全員登場した");
+      } else if (card.onDeath.effect === "curse" && killer && killerOwner !== ownerIdx) {
+        // 自分を倒した相手に呪いを残す。以後その相手は攻撃するたび自分を削る
+        var amt = card.onDeath.amount[u.lv] || 0;
+        if (amt > 0) {
+          killer.status.curse = Math.max(killer.status.curse || 0, amt);
+          log(s, unitName(killer) + " は " + unitName(u) + " の呪いを受けた（攻撃するたび" + amt + "ダメージ）");
+          emit(s, { type: "curse", kind: "unit", owner: killerOwner, amount: amt });
+        }
       }
-      // curse は Ver.1 未実装
     }
 
     // 倒したモンスターにレベルアップの権利。味方を自分で倒した場合も権利は出るが、
@@ -1781,16 +1918,18 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     var chosen = targets.filter(function (t) { return sameTarget(t, target); })[0];
     if (!chosen) { return { ok: false, why: "その相手には届かない" }; }
 
-    // きあいだめは通常攻撃にのみ +1P
+    // 書いてある数字をそのまま撃つ
     var power = {};
-    if (base.p !== undefined) { power.p = base.p + (u.charged ? 1 : 0); }
+    if (base.p !== undefined) { power.p = base.p + (RULES.chargeEnabled && u.charged ? 1 : 0); }
     else { power.d = base.d; }
 
     log(s, p.name + "／" + card.name + " の攻撃 " + fmtPower(power));
     spendAction(u);
     applyDamage(s, chosen, power, { killer: u, killerOwner: ownerIdx });
 
-    // 反動（ドカンゾウ系）: 基本威力と同じだけ自分もダメージ
+    applyCurse(s, ownerIdx, u);
+
+    // 反動（バクダンムシ系）: 基本威力と同じだけ自分もダメージ
     if (card.recoil && base.p !== undefined) {
       u.hp -= base.p;
       log(s, card.name + " は反動で" + base.p + "ダメージ（残HP" + Math.max(0, u.hp) + "）");
@@ -1823,7 +1962,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     if (p.stones < cost) { return { ok: false, why: "ストーンが足りない（必要" + cost + "）" }; }
 
     var range = sk.rangeLv ? (sk.rangeLv[u.lv] || sk.range) : sk.range;
-    var targets = legalTargets(s, ownerIdx, from, range);
+    var targets = skillTargets(s, ownerIdx, from, sk, u);
     var chosen = null;
     if (range !== "self") {
       chosen = targets.filter(function (t) { return sameTarget(t, target); })[0];
@@ -1835,7 +1974,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     log(s, p.name + "／" + card.name + " の " + sk.name + "（石" + cost + "）");
 
     var res = applySkill(s, ownerIdx, u, card, sk, chosen);
-    if (sk.selfDestruct) {
+    if (u.hp > 0) { applyCurse(s, ownerIdx, u); }
+    if (sk.selfDestruct && u.hp > 0) {
       log(s, card.name + " は特技の代償で倒れる");
       killUnit(s, ownerIdx, u);
     }
@@ -1844,6 +1984,9 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
   function applySkill(s, ownerIdx, u, card, sk, target) {
     var p = s.players[ownerIdx];
+    if (UNIT_ONLY_EFFECTS[sk.effect] && (!target || target.kind !== "unit")) {
+      return { ok: false, why: sk.name + " は モンスターにしか つかえない" };
+    }
 
     switch (sk.effect) {
       case "attack": {
@@ -1941,18 +2084,81 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         log(s, unitName(target.unit) + " の追加効果をすべて解除した");
         return { ok: true };
 
-      case "wake":
-        if (target.unit.ready) { return { ok: false, why: "準備中ではない" }; }
+      case "wake": {
+        if (target.unit.ready) { return { ok: false, why: "じゅんび中では ありません" }; }
         target.unit.ready = true;
-        target.unit.actionsLeft = unitCard(target.unit).twoActions ? 2 : 1;
+        // 自分の番のうちに起こしたなら すぐ動ける。相手のモンスターは次の相手の番から
+        target.unit.actionsLeft = target.owner === ownerIdx
+          ? (unitCard(target.unit).twoActions ? 2 : 1) : 0;
         log(s, unitName(target.unit) + " が即座に登場した");
+        emit(s, { type: "wake", kind: "unit", owner: target.owner, row: target.row, col: target.col });
         return { ok: true };
+      }
 
-      case "swap":
-        return { ok: false, why: "あなちがえは対象を2体指定する必要がある（swapUnits を使う）" };
+      case "swap": {
+        var other = target.unit;
+        if (other === u) { return { ok: false, why: "自分とは入れ替えられない" }; }
+        var pa = findUnit(p, u), pb = findUnit(p, other);
+        if (!pa || !pb) { return { ok: false, why: "位置が見つからない" }; }
+        p.field[pa.row][pa.col] = other;
+        p.field[pb.row][pb.col] = u;
+        log(s, unitName(u) + " と " + unitName(other) + " の位置を入れ替えた");
+        return { ok: true };
+      }
+      case "morph": {
+        // 相手を いちばん基本のモンスターの姿に変えてしまう
+        var mt = target.unit;
+        var into = root.cardById(sk.into || 1);
+        if (mt.cardId === into.id) { return { ok: false, why: "すでに " + into.name + " です" }; }
+        var keepHp = Math.min(mt.hp, into.lv[into.minLv].hp);
+        mt.cardId = into.id;
+        mt.lv = into.minLv;
+        mt.hp = Math.max(1, keepHp);
+        mt.status.taunt = undefined;
+        log(s, unitName(mt) + " の姿に変えられた（HP" + mt.hp + "）");
+        emit(s, { type: "morph", kind: "unit", owner: target.owner, row: target.row, col: target.col });
+        return { ok: true };
+      }
+      case "levelSwap": {
+        // 相手のレベルを1下げ、そのぶん いちばん低い味方を1つ上げる
+        var d2 = target.unit;
+        var lowered = false;
+        if (d2.lv > unitCard(d2).minLv) {
+          d2.lv--;
+          d2.hp = Math.min(d2.hp, maxHpOf(d2));
+          d2.stones = Math.max(0, d2.stones - 1);
+          lowered = true;
+          log(s, unitName(d2) + " がLv" + d2.lv + "に下がった");
+        }
+        var best = null;
+        eachUnit(p, function (x) {
+          if (!x.ready || !unitCard(x).lv[x.lv + 1]) { return; }
+          if (!best || x.lv < best.lv) { best = x; }
+        });
+        if (best) {
+          var r2 = doLevelUp(s, ownerIdx, best, 0);
+          if (r2.ok) { log(s, unitName(best) + " が代わりに育った"); }
+        }
+        if (!lowered && !best) { return { ok: false, why: "下げる相手も 育つ味方も いない" }; }
+        return { ok: true };
+      }
 
       default:
         return { ok: false, why: sk.effect + " は Ver.1 では未実装" };
+    }
+  }
+
+  /* 呪いを受けたモンスターは、攻撃するたびに自分を削る */
+  function applyCurse(s, ownerIdx, u) {
+    var amt = u.status.curse;
+    if (!amt || u.hp <= 0) { return; }
+    u.hp -= amt;
+    log(s, unitName(u) + " は呪いで" + amt + "ダメージ（残HP" + Math.max(0, u.hp) + "）");
+    var pos = whereIs(s, ownerIdx, u);
+    emit(s, { type: "damage", kind: "unit", owner: pos.owner, row: pos.row, col: pos.col, amount: amt });
+    if (u.hp <= 0) {
+      killUnit(s, ownerIdx, u);
+      if (s.pending && s.pending.unit === u) { s.pending = null; }
     }
   }
 
@@ -1963,6 +2169,21 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     log(s, p.name + " " + (why || "ペナルティ") + " でマスターHP-" + RULES.selfKillPenalty +
            "（HP" + p.hp + "）");
     if (p.hp <= 0) { s.winner = 1 - ownerIdx; s.endReason = "自滅"; }
+  }
+
+  /* ストーンをたくさん払って、マスターのHPを回復する */
+  function masterHeal(s, ownerIdx) {
+    var err = requireTurn(s, ownerIdx); if (err) { return { ok: false, why: err }; }
+    var p = s.players[ownerIdx];
+    if (p.stones < RULES.masterHealCost) {
+      return { ok: false, why: "ストーンが足りない（必要" + RULES.masterHealCost + "）" };
+    }
+    if (p.hp >= RULES.masterHp) { return { ok: false, why: "マスターのHPは満タン" }; }
+    p.stones -= RULES.masterHealCost;
+    p.hp = Math.min(RULES.masterHp, p.hp + RULES.masterHealAmount);
+    log(s, p.name + " ストーン" + RULES.masterHealCost + "個で マスターのHPが" + p.hp + "に回復");
+    emit(s, { type: "heal", kind: "master", owner: ownerIdx, amount: RULES.masterHealAmount });
+    return { ok: true };
   }
 
   /* ================= レベルアップ ================= */
@@ -2033,6 +2254,38 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     return { ok: true };
   }
 
+  /* ================= 最初の手札の入れ替え（1回だけ） =================
+   * えらんだカードを山札に戻してよく切り、戻した枚数だけ引き直す。
+   * 各プレイヤー1回きり、最初のラウンドのあいだだけ。 */
+
+  function canMulligan(s, ownerIdx) {
+    var p = s.players[ownerIdx];
+    return !p.mulliganDone && s.round === 1 && s.winner === null;
+  }
+
+  function mulligan(s, ownerIdx, handIndexes) {
+    var p = s.players[ownerIdx];
+    if (!canMulligan(s, ownerIdx)) { return { ok: false, why: "手札の入れ替えは 最初の1回だけ" }; }
+    handIndexes = (handIndexes || []).slice().sort(function (a, b) { return b - a; });
+    if (handIndexes.length > p.hand.length) { return { ok: false, why: "手札より多くは選べない" }; }
+
+    var backs = [];
+    handIndexes.forEach(function (i) {
+      if (i < 0 || i >= p.hand.length) { return; }
+      backs.push(p.hand.splice(i, 1)[0]);
+    });
+    if (backs.length) {
+      backs.forEach(function (id) { p.deck.push(id); });
+      p.deck = shuffle(p.deck, s.rng);
+      for (var k = 0; k < backs.length; k++) { drawCard(s, p); }
+      log(s, p.name + " が手札を" + backs.length + "枚 入れ替えた");
+    } else {
+      log(s, p.name + " は手札を そのままにした");
+    }
+    p.mulliganDone = true;
+    return { ok: true, swapped: backs.length };
+  }
+
   /* ================= 手札調整 ================= */
 
   function discard(s, ownerIdx, handIndex) {
@@ -2062,6 +2315,31 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
   /* ================= 合法手の列挙 ================= */
   /* UIのハイライトにもCPUの思考にも同じものを使う */
+
+  /* モンスターしか対象にできない特技。マスターを選べてしまうと壊れる */
+  var UNIT_ONLY_EFFECTS = {
+    morph: 1, levelDown: 1, levelSwap: 1, banish: 1, lock: 1,
+    cleanse: 1, wake: 1, swap: 1, levelUp: 1, taunt: 1
+  };
+
+  /* 特技が実際に選べる対象。射程だけでなく、効果の制約もここで絞る */
+  function skillTargets(s, ownerIdx, from, sk, u) {
+    var range = sk.rangeLv ? (sk.rangeLv[u.lv] || sk.range) : sk.range;
+    var list = legalTargets(s, ownerIdx, from, range);
+    if (UNIT_ONLY_EFFECTS[sk.effect]) {
+      list = list.filter(function (t) { return t.kind === "unit"; });
+    }
+    if (sk.effect === "swap") {
+      list = list.filter(function (t) { return t.unit !== u; });   // 自分とは入れ替えられない
+    }
+    if (sk.effect === "wake") {
+      list = list.filter(function (t) { return !t.unit.ready; });
+    }
+    if (sk.effect === "morph") {
+      list = list.filter(function (t) { return t.unit.cardId !== (sk.into || 1); });
+    }
+    return list;
+  }
 
   function skillCostOf(u, sk) {
     var c = sk.costLv ? sk.costLv[u.lv] : sk.cost;
@@ -2111,7 +2389,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
           if (range === "self") {
             out.push({ type: "skill", from: from, unit: u, target: null, cost: cost });
           } else {
-            legalTargets(s, ownerIdx, from, range).forEach(function (t) {
+            skillTargets(s, ownerIdx, from, sk, u).forEach(function (t) {
               out.push({ type: "skill", from: from, unit: u, target: t, cost: cost });
             });
           }
@@ -2128,6 +2406,11 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       });
     });
 
+    // マスターの回復（石をたくさん持っているときだけ）
+    if (p.stones >= RULES.masterHealCost && p.hp < RULES.masterHp) {
+      out.push({ type: "masterHeal" });
+    }
+
     out.push({ type: "end" });
     return out;
   }
@@ -2139,6 +2422,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       case "attack": return attack(s, ownerIdx, a.from, a.target);
       case "skill":  return useSkill(s, ownerIdx, a.from, a.target);
       case "move":   return move(s, ownerIdx, a.from, a.to);
+      case "masterHeal": return masterHeal(s, ownerIdx);
       case "end":    return endTurn(s);
       default:       return { ok: false, why: "不明な行動" };
     }
@@ -2166,7 +2450,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     }
 
     var t = {
-      turn: s.turn, round: s.round, active: s.active,
+      turn: s.turn, round: s.round, active: s.active, firstPlayer: s.firstPlayer,
       winner: s.winner, endReason: s.endReason,
       firstTurnDone: s.firstTurnDone.slice(),
       log: [],                       // ログも演出記録も引き継がない（評価には不要）
@@ -2174,7 +2458,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       rng: s.rng,
       players: s.players.map(function (p) {
         return {
-          name: p.name, hp: p.hp, stones: p.stones,
+          name: p.name, hp: p.hp, stones: p.stones, mulliganDone: p.mulliganDone,
           deck: p.deck.slice(), hand: p.hand.slice(), discard: p.discard.slice(),
           field: {
             front: [cloneUnit(p.field.front[0]), cloneUnit(p.field.front[1])],
@@ -2204,11 +2488,12 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   function previewDamage(s, ownerIdx, u, power, target, isNormal) {
     var p = {};
     if (power.d !== undefined) { p.d = power.d; }
-    else { p.p = power.p + (isNormal && u.charged ? 1 : 0); }
+    else { p.p = power.p + (RULES.chargeEnabled && isNormal && u.charged ? 1 : 0); }
     if (target.kind === "master") {
       return p.d !== undefined ? p.d : Math.max(0, p.p - RULES.masterShield);
     }
-    return p.d !== undefined ? p.d : Math.max(0, p.p - (target.unit.charged ? 1 : 0));
+    return p.d !== undefined ? p.d
+      : Math.max(0, p.p - (RULES.chargeEnabled && target.unit.charged ? 1 : 0));
   }
 
   /* ================= 公開 ================= */
@@ -2227,11 +2512,16 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     discard: discard,
     legalTargets: legalTargets,
     validateDeck: validateDeck,
+    masterHeal: masterHeal,
+    mulligan: mulligan,
+    canMulligan: canMulligan,
+    shuffle: shuffle,
     listActions: listActions,
     perform: perform,
     cloneState: cloneState,
     previewDamage: previewDamage,
     skillCostOf: skillCostOf,
+    skillTargets: skillTargets,
     skillRangeOf: skillRangeOf,
     // テスト・UI用
     _internals: { eachUnit: eachUnit, findUnit: findUnit, makeUnit: makeUnit,
@@ -2352,7 +2642,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         '2P → 2-2 = 0　　とおらない\n' +
         '3P → 3-2 = 1　　HP-1\n' +
         '4P → 4-2 = 2　　HP-2</div>' +
-        '<p class="sub">出したばかりのモンスターは たいてい 2P なので、そのままでは マスターに とどきません。' +
+        '<p class="sub">攻撃が外れることは ありません。<b>数字が足りないと 0になる</b>だけです。' +
+        '出したばかりのモンスターは たいてい 2P なので、そのままでは マスターに とどきません。' +
         'どうやって 3P にするかが このゲームの ぜんぶです。</p>'
     },
     {
@@ -2419,9 +2710,14 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         '<div><span class="k">まもり</span><span>受ける P攻撃が <b>-1</b></span></div>' +
         '<div><span class="k">きえる</span><span>攻撃した／攻撃された／移動した とき</span></div>' +
         '</div>' +
-        '<p><b>むりに攻撃するより、なにもしない方が つよいターンが かなりあります。</b></p>' +
-        '<p class="sub">ただし +1P が乗るのは 通常攻撃だけ。とくぎには 乗りません。' +
-        'また D（ダメージ）攻撃は きあいだめでは 減らせません。</p>'
+        '<p><b>きあいだめ中の相手を攻撃すると どうなるか</b></p>' +
+        '<div class="rulefig">2P で攻撃 → 1ダメージ（2-1）\n' +
+        '3P で攻撃 → 2ダメージ（3-1）\n' +
+        '1P で攻撃 → 0ダメージ\n' +
+        '1D で攻撃 → 1ダメージ（Dは減らない）</div>' +
+        '<p><b>外れるのではなく、1へるだけ</b>です。そして受けた時点で きあいだめは 消えます。</p>' +
+        '<p class="sub">+1P が乗るのは 通常攻撃だけ。とくぎには 乗りません。' +
+        'むりに攻撃するより、なにもしない方が つよいターンが かなりあります。</p>'
     },
     {
       title: "レベルアップ と P・D",
@@ -2436,8 +2732,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         '<b>「誰に倒させるか」が このゲームで いちばん だいじな 判断</b> です。</p>' +
         '<p>さいごに 攻撃の表記。</p>' +
         '<div class="rulekey">' +
-        '<div><span class="k">2P</span><span>パワー。たて・きあいだめで <b>軽減される</b></span></div>' +
-        '<div><span class="k">1D</span><span>ダメージ。<b>なにをしても 軽減されず</b> そのままHPを削る</span></div>' +
+        '<div><span class="k">2P</span><span>パワー。マスターのたて・きあいだめで <b>減ることがある</b></span></div>' +
+        '<div><span class="k">1D</span><span>ダメージ。<b>なにをしても 減らず</b> そのままHPを削る</span></div>' +
         '</div>'
     }
   ];
@@ -2463,10 +2759,20 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
 
   var LEVELS = {
-    weak:   { key: "weak",   name: "よわい",  desc: "ルールは守るが、手はかなり雑。まず1勝したいとき。" },
-    normal: { key: "normal", name: "ふつう",  desc: "倒せる相手は倒し、通る攻撃は通す。素直に強い。" },
-    strong: { key: "strong", name: "つよい",  desc: "壁を残し、育てる相手を選び、殴らずに溜める。原作の戦い方に近い。" }
+    weak:   { key: "weak",   name: "よわい",
+              desc: "ルールは守るが、手はかなり雑。まず1勝したいとき。" },
+    normal: { key: "normal", name: "ふつう",
+              desc: "倒せる相手は倒し、通る攻撃は通す。素直に強い。" },
+    strong: { key: "strong", name: "つよい",
+              desc: "1手先の盤面を全部ためして、いちばん良い手を選ぶ。" },
+    master: { key: "master", name: "すごくつよい",
+              desc: "自分の手のあと、相手の最善の返しまで読む。生半可な攻めは通らない。" },
+    demon:  { key: "demon",  name: "悪魔",
+              desc: "読みの深さは最強。そのうえ最初の手札を えり抜きで揃えて始める。まず勝てない。" }
   };
+  /* 先まで読む強さ */
+  function isSearcher(level) { return level === "strong" || level === "master" || level === "demon"; }
+  function readsReply(level) { return level === "master" || level === "demon"; }
 
   function unitCard(u) { return root.cardById(u.cardId); }
   function maxHpOf(u) { return unitCard(u).lv[u.lv].hp; }
@@ -2616,7 +2922,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       } else if (level === "normal") {
         accept = p.stones >= E.RULES.levelUpCost;
       } else {
-        // つよい: 石を残す価値と天秤にかける。味方殺し由来ならHPも減るので慎重に
+        // つよい以上: 石を残す価値と天秤にかける。味方殺し由来ならHPも減るので慎重に
         accept = p.stones >= E.RULES.levelUpCost + (pend.selfKill ? 1 : 0);
         if (pend.selfKill && p.hp <= 2) { accept = false; }
         if (u.hp < maxHpOf(u)) { accept = accept && true; }   // HP回復目的なら積極的に
@@ -2700,42 +3006,157 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     return v;
   }
 
-  /* 候補の手を1つ試して、その結果の盤面を採点する */
+  /* 相手に手番を渡したあと、いちばん痛い返しを受けた盤面の点数 */
+  function worstAfterReply(t, me, limit) {
+    if (t.winner !== null) { return evaluate(t, me); }
+    var foe = t.active;
+    var foeActions = E.listActions(t, foe).filter(function (fa) { return fa.type !== "end"; });
+    if (!foeActions.length) { return evaluate(t, me); }
+
+    // 全部読むと重いので、まず1手打った直後の点数で ふるいにかける
+    var scored = [];
+    foeActions.forEach(function (fa) {
+      var t2 = E.cloneState(t);
+      if (!E.perform(t2, foe, fa).ok) { return; }
+      resolvePending(t2, "normal");
+      scored.push({ t: t2, v: evaluate(t2, me) });
+    });
+    if (!scored.length) { return evaluate(t, me); }
+    scored.sort(function (x, y) { return x.v - y.v; });     // 自分にとって悪い順
+    var n = Math.min(limit || 6, scored.length);
+    var worst = Infinity;
+    for (var i = 0; i < n; i++) { if (scored[i].v < worst) { worst = scored[i].v; } }
+    return worst;
+  }
+
+  /* 「つよい」用。1手打った直後の盤面をそのまま採点する。
+     ターンを渡す手だけは、相手の返しまで見て 渡し得かどうかを判断する。 */
   function tryAction(s, me, a) {
     var t = E.cloneState(s);
     var r = E.perform(t, me, a);
     if (!r.ok) { return null; }
     resolvePending(t, "strong");
-    if (a.type === "end") {
-      // ターンを渡す手だけは、相手が1手打った後まで見る（渡し得の判定）
-      if (t.winner === null) {
-        var foeActions = E.listActions(t, t.active);
-        var worst = Infinity;
-        foeActions.forEach(function (fa) {
-          if (fa.type === "end") { return; }
-          var t2 = E.cloneState(t);
-          if (!E.perform(t2, t2.active, fa).ok) { return; }
-          resolvePending(t2, "normal");
-          var val = evaluate(t2, me);
-          if (val < worst) { worst = val; }
-        });
-        if (worst !== Infinity) { return worst; }
-      }
-    }
+    if (a.type === "end") { return worstAfterReply(t, me, 6); }
     return evaluate(t, me);
   }
 
-  function pickStrong(s, me) {
-    var actions = E.listActions(s, me);
-    if (actions.length === 0) { return null; }
-    var best = null, bestV = -Infinity;
-    actions.forEach(function (a) {
-      var v = tryAction(s, me, a);
-      if (v === null) { return; }
-      // 同点なら、手数を使わない手（ターン終了）を選びやすくしておく
-      if (v > bestV + 0.0001) { bestV = v; best = a; }
+  /* 「すごくつよい」「悪魔」用。
+   *
+   * 1手ごとに点を付けると、「ターンを渡す手」と「まだ打つ手」で
+   * 見ている未来の長さが違ってしまい、比べても意味がない。
+   * そこで どの候補も同じところまで進めてから比べる:
+   *
+   *   その手を打つ → 自分のターンを最後まで打ち切る → 相手に渡す
+   *   → 相手のいちばん痛い返しを受ける → そこで採点
+   *
+   * 続きの手は軽い方針（ふつうと同じ点数付け）で選ぶ。
+   * こうしないとクローンが増えすぎて重くなる。 */
+  function rolloutValue(s, me, a, level) {
+    var t = E.cloneState(s);
+    if (!E.perform(t, me, a).ok) { return null; }
+    resolvePending(t, level);
+
+    if (a.type !== "end") {
+      // 自分のターンの残りを打ち切る。ここを雑にすると読みがずれるので、
+      // 「つよい」と同じやり方（1手先の盤面を見て選ぶ）で埋める
+      var guard = 0;
+      while (t.winner === null && t.active === me && guard++ < 8) {
+        var next = pickBestOnePly(t, me);
+        if (!next) { break; }
+        if (!E.perform(t, me, next).ok) { break; }
+        resolvePending(t, level);
+      }
+      if (t.winner === null && t.active === me) {
+        trimHand(t, me, "normal");
+        E.endTurn(t);
+      }
+    }
+    if (t.winner !== null) { return evaluate(t, me); }
+    return worstAfterReply(t, me, 8);
+  }
+
+  /* 1手先の盤面だけを見て、いちばん良くなる手を返す（読みの続きに使う） */
+  function pickBestOnePly(s, me) {
+    var actions = E.listActions(s, me).filter(function (x) { return x.type !== "end"; });
+    if (!actions.length) { return null; }
+    var now = evaluate(s, me);
+    var best = null, bestV = now;
+    actions.forEach(function (x) {
+      var t = E.cloneState(s);
+      if (!E.perform(t, me, x).ok) { return; }
+      resolvePending(t, "strong");
+      var v = evaluate(t, me);
+      if (v > bestV + 0.0001) { bestV = v; best = x; }
     });
     return best;
+  }
+
+  function pickSearch(s, me, level) {
+    var actions = E.listActions(s, me);
+    if (actions.length === 0) { return null; }
+
+    if (!readsReply(level)) {
+      var best = null, bestV = -Infinity;
+      actions.forEach(function (a) {
+        var v = tryAction(s, me, a);
+        if (v === null) { return; }
+        if (v > bestV + 0.0001) { bestV = v; best = a; }
+      });
+      return best;
+    }
+
+    // 深く読むぶん、候補は先に絞る。安い点数付けで上位だけを残す
+    var ctx = survey(s, me);
+    var ranked = actions
+      .filter(function (a) { return a.type !== "end"; })
+      .map(function (a) { return { a: a, v: scoreAction(s, me, a, ctx) }; })
+      .sort(function (x, y) { return y.v - x.v; })
+      .slice(0, level === "demon" ? 14 : 10)
+      .map(function (x) { return x.a; });
+    ranked.push({ type: "end" });          // 溜めて渡す選択肢は必ず残す
+
+    var b2 = null, bv2 = -Infinity;
+    ranked.forEach(function (a) {
+      var v = rolloutValue(s, me, a, level);
+      if (v === null) { return; }
+      if (v > bv2 + 0.0001) { bv2 = v; b2 = a; }
+    });
+    return b2;
+  }
+
+  /* ---------------- 悪魔だけの反則すれすれ ----------------
+   * デッキの中から いちばん使いたい5枚を選んで、最初の手札にしてしまう。
+   * 山札の中身は変えないので、デッキ構築のルールは破っていない。 */
+
+  function openingValue(c) {
+    var v = 0;
+    var lv1 = c.lv[c.minLv];
+    v += lv1.hp * 2;
+    if (lv1.atk && lv1.atk.p) { v += lv1.atk.p * 3; }
+    if (lv1.atk && lv1.atk.d) { v += lv1.atk.d * 6; }
+    if (c.skill) { v += 6; }
+    if (c.twoActions) { v += 10; }
+    if (c.super) { v -= 14; }       // 進化元がいないと出せない
+    if (c.recoil) { v -= 4; }
+    return v;
+  }
+
+  function stackOpeningHand(s, me) {
+    var p = s.players[me];
+    var pool = p.hand.concat(p.deck);
+    var ranked = pool.slice().sort(function (a, b) {
+      return openingValue(root.cardById(b)) - openingValue(root.cardById(a));
+    });
+    var hand = ranked.slice(0, E.RULES.startingHand);
+    // 残りを山札に戻す（順番は崩しておく）
+    var rest = pool.slice();
+    hand.forEach(function (id) {
+      var i = rest.indexOf(id);
+      if (i >= 0) { rest.splice(i, 1); }
+    });
+    p.hand = hand;
+    p.deck = E.shuffle(rest, s.rng);
+    p.mulliganDone = true;          // すでに最高の手札なので入れ替えない
   }
 
   /* ---------------- 次の1手を決める ----------------
@@ -2745,7 +3166,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   function pickAction(s, me, level) {
     if (s.winner !== null || s.active !== me || s.pending) { return null; }
 
-    if (level === "strong") { return pickStrong(s, me); }
+    if (isSearcher(level)) { return pickSearch(s, me, level); }
 
     var actions = E.listActions(s, me);
     if (actions.length <= 1) { return null; }
@@ -2796,6 +3217,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   }
 
   root.AI = { LEVELS: LEVELS, takeTurn: takeTurn, pickAction: pickAction,
+              stackOpeningHand: stackOpeningHand, isSearcher: isSearcher,
               resolvePending: resolvePending, trimHand: trimHand, evaluate: evaluate };
 })(typeof window !== "undefined" ? window : globalThis);
 
@@ -2829,7 +3251,14 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     tutor: null,          // チュートリアル進行 {step, steps}
     builderCounts: {},
     builderFor: 0,
-    pendingDeck: null
+    pendingDeck: null,
+    firstPlayer: 0,       // コイントスの結果
+    mulliganFor: 0,
+    mulliganPick: {},
+    turnSeconds: 100,     // 1ターンの持ち時間
+    clockLeft: 100,
+    clockId: null,
+    bannerTimer: null
   };
 
   /* ---------- 小道具 ---------- */
@@ -2841,7 +3270,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     return e;
   }
   var SCREENS = ["title", "askrules", "rules", "asktutorial",
-                 "mode", "level", "deck", "deckview", "builder", "game", "result"];
+                 "mode", "level", "deck", "deckview", "toss", "mulligan", "builder", "game", "result"];
   function show(name) {
     SCREENS.forEach(function (n) { $("scr-" + n).hidden = n !== name; });
     // 画面に合わせてBGMを切り替える
@@ -2923,6 +3352,9 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       App.deckKeys = [null, null];
       openDeckSelect(0);
     };
+    $("askrules-back").onclick = function () { show("title"); };
+    $("asktuto-back").onclick = function () { show("askrules"); };
+    $("mode-back").onclick = function () { show("asktutorial"); };
     $("level-back").onclick = function () { show("mode"); };
     $("deck-back").onclick = function () {
       if (App.mode === "cpu") { show("level"); }
@@ -3039,6 +3471,50 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     box.appendChild(el("div", "inote", "通常攻撃の とどく範囲：" + (RANGE_JP[c.range] || c.range)));
 
+    // 実際に何ダメージ通るのか（マスターには2Pのたてがある）
+    if (u) {
+      var dp = damageProfile(u);
+      var lines = [];
+      if (dp.atk) {
+        lines.push("<b>いまの通常攻撃 " + dp.atk + (dp.charged ? "（きあいだめ込み）" : "") +
+                   "</b>　モンスターに " + dp.unit + " ／ マスターに " + dp.master +
+                   "（マスターには たて2P があります）");
+      }
+      if (dp.skill) {
+        lines.push("<b>いまのとくぎ " + dp.skill.label + "（石" + dp.skill.cost + "）</b>　モンスターに " +
+                   dp.skill.unit + " ／ マスターに " + dp.skill.master);
+      }
+      lines.push("<span class=\"note-sub\">きあいだめ中の相手に P攻撃をすると 1へります（当たらないのではなく -1）。D攻撃は 減りません。</span>");
+      if (lines.length) {
+        var dn = el("div", "iskill");
+        dn.innerHTML = lines.join("<br>");
+        box.appendChild(dn);
+      }
+    } else {
+      // 盤面に出ていないカードは、レベルごとの通り方をまとめて出す
+      var rows = [];
+      Object.keys(c.lv).map(Number).sort().forEach(function (l) {
+        var a2 = c.lv[l].atk;
+        if (!a2) { return; }
+        var val = a2.p !== undefined ? a2.p : a2.d;
+        var m = a2.p !== undefined ? Math.max(0, a2.p - E.RULES.masterShield) : a2.d;
+        rows.push("Lv" + l + "：モンスターに " + val + " ／ マスターに " + m);
+      });
+      if (c.skill && c.skill.effect === "attack" && c.skill.power) {
+        Object.keys(c.skill.power).map(Number).sort().forEach(function (l) {
+          var sp2 = c.skill.power[l];
+          var val2 = sp2.p !== undefined ? sp2.p : sp2.d;
+          var m2 = sp2.p !== undefined ? Math.max(0, sp2.p - E.RULES.masterShield) : sp2.d;
+          rows.push("とくぎ Lv" + l + "：モンスターに " + val2 + " ／ マスターに " + m2);
+        });
+      }
+      if (rows.length) {
+        var dn2 = el("div", "iskill");
+        dn2.innerHTML = "<b>通るダメージ</b><br>" + rows.join("<br>");
+        box.appendChild(dn2);
+      }
+    }
+
     if (c.skill) {
       var sk = c.skill;
       var cost = u ? E.skillCostOf(u, sk) : sk.cost;
@@ -3078,7 +3554,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
   function renderLevels() {
     var box = $("level-list");
     box.innerHTML = "";
-    ["weak", "normal", "strong"].forEach(function (k) {
+    ["weak", "normal", "strong", "master", "demon"].forEach(function (k) {
       var lv = AI.LEVELS[k];
       var b = el("button", "choice");
       b.appendChild(el("span", "t", lv.name));
@@ -3205,7 +3681,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       App.deckKeys[1] = pick.key;
       App.decks[1] = pick.cards.slice();
     }
-    startGame();
+    openToss();
   }
 
   /* ================= デッキ作成 ================= */
@@ -3296,16 +3772,143 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     renderBuilder();
   }
 
+  /* ================= コイントス ================= */
+
+  function openToss() {
+    $("toss-result").innerHTML = "";
+    $("toss-go").disabled = false;
+    $("toss-go").textContent = "コインを なげる";
+    $("toss-go").onclick = doToss;
+    show("toss");
+  }
+
+  function doToss() {
+    var btn = $("toss-go");
+    btn.disabled = true;
+    var coin = $("toss-coin");
+    coin.classList.remove("spin");
+    void coin.offsetWidth;
+    coin.classList.add("spin");
+    Snd.sfx("summon");
+
+    var first = Math.random() < 0.5 ? 0 : 1;
+    setTimeout(function () {
+      App.firstPlayer = first;
+      var who = sideName(first);
+      $("toss-result").innerHTML = "<b>" + who + "</b> の 先攻！" +
+        '<span class="sub">' + sideName(1 - first) + " は 後攻（1ターン目から カードを引けます）</span>";
+      Snd.sfx(isHuman(first) ? "levelup" : "block");
+      btn.disabled = false;
+      btn.textContent = "すすむ";
+      btn.onclick = startGame;
+    }, 1150);
+  }
+
+  /* ================= 最初の手札の入れ替え ================= */
+
+  function openMulligan(who) {
+    App.mulliganFor = who;
+    App.mulliganPick = {};
+    $("mul-title").textContent = App.mode === "human"
+      ? sideName(who) + "：手札を 入れ替えますか？"
+      : "手札を 入れ替えますか？";
+    $("mul-lead").innerHTML =
+      "いらないカードを えらぶと、山札に戻してよく切り、<b>同じ枚数だけ引き直します</b>。" +
+      "0枚でも 5枚ぜんぶでも かまいません。<br><b>使えるのは 最初の1回だけ</b>です。";
+    renderMulligan();
+    show("mulligan");
+  }
+
+  function renderMulligan() {
+    var s = App.state, who = App.mulliganFor, p = s.players[who];
+    var box = $("mul-hand");
+    box.innerHTML = "";
+    p.hand.forEach(function (id, i) {
+      var c = card(id);
+      var b = el("button", "card" + (App.mulliganPick[i] ? " sel" : ""));
+      b.appendChild(el("div", "plate", c.art));
+      b.appendChild(el("div", "cname", c.name));
+      b.appendChild(elemTag(c));
+      b.appendChild(el("div", "swaptag", App.mulliganPick[i] ? "入れ替える" : "　"));
+      b.onclick = function () {
+        if (App.mulliganPick[i]) { delete App.mulliganPick[i]; }
+        else { App.mulliganPick[i] = true; }
+        Snd.sfx("select");
+        renderMulligan();
+      };
+      box.appendChild(b);
+    });
+    var n = Object.keys(App.mulliganPick).length;
+    $("mul-stat").innerHTML = "えらんだ枚数 <b>" + n + "</b> / " + p.hand.length +
+      "　山札のこり " + p.deck.length + "枚";
+    $("mul-go").disabled = n === 0;
+    $("mul-go").textContent = n === 0 ? "カードを えらんでください" : n + "枚 入れ替える";
+    $("mul-go").onclick = function () {
+      var idx = Object.keys(App.mulliganPick).map(Number);
+      E.mulligan(App.state, who, idx);
+      afterMulligan(who);
+    };
+    $("mul-none").onclick = function () {
+      E.mulligan(App.state, who, []);
+      afterMulligan(who);
+    };
+  }
+
+  function afterMulligan(who) {
+    var s = App.state;
+    // まだ入れ替えていない人間がいれば、その人へ
+    var next = -1;
+    App.humanSides.forEach(function (i) {
+      if (next < 0 && i !== who && E.canMulligan(s, i)) { next = i; }
+    });
+    if (next >= 0) { openMulligan(next); return; }
+    beginBattle();
+  }
+
   /* ================= 対戦の開始 ================= */
 
   function startGame() {
     App.state = E.createGame(App.decks[0], App.decks[1], {
       seed: Math.floor(Math.random() * 1e9),
+      first: App.firstPlayer,
       nameA: sideName(0), nameB: sideName(1)
     });
-    App.view = 0;
+    App.view = App.humanSides[0];
     App.sel = null;
+    App.info = null;
+    App.risen = {};
     App.busy = false;
+
+    // CPUの手札を先に決める。悪魔は えり抜きの5枚を揃えてくる
+    App.humanSides.indexOf(1) < 0 && prepareCpuHand(1);
+
+    // 人間の手札の入れ替えへ
+    var first = -1;
+    App.humanSides.forEach(function (i) { if (first < 0 && E.canMulligan(App.state, i)) { first = i; } });
+    if (first >= 0) { openMulligan(first); } else { beginBattle(); }
+  }
+
+  /* CPU側の最初の手札 */
+  function prepareCpuHand(idx) {
+    var s = App.state;
+    if (App.cpuLevel === "demon") {
+      AI.stackOpeningHand(s, idx);
+      s.log.push("悪魔は 望みどおりの手札を そろえている");
+      return;
+    }
+    if (App.cpuLevel === "dummy") { s.players[idx].mulliganDone = true; return; }
+    // ふつう以上は、使いにくい手札なら入れ替える
+    var p = s.players[idx];
+    var toss = [];
+    p.hand.forEach(function (id, i) {
+      var c = card(id);
+      if (c.super) { toss.push(i); }                      // 進化元がいないと出せない
+      else if (App.cpuLevel !== "weak" && c.lv[c.minLv].hp <= 2) { toss.push(i); }
+    });
+    E.mulligan(s, idx, App.cpuLevel === "weak" ? [] : toss);
+  }
+
+  function beginBattle() {
     show("game");
     render();
     afterTurnChange(true);
@@ -3313,23 +3916,75 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
   /* ================= 盤面の描画 ================= */
 
-  function unitStats(u, side) {
+  /* このモンスターが「いま」出せる数字を計算する。
+     きあいだめの+1も入れた実数で、マスターとモンスターに何ダメージ通るかまで出す。 */
+  function damageProfile(u) {
     var c = card(u.cardId);
-    var box = el("div", "stats");
+    var out = { atk: null, master: 0, unit: 0, charged: !!u.charged, skill: null };
     var a = c.lv[u.lv].atk;
     if (a) {
-      var chip = el("span", "chip " + (a.d !== undefined ? "d" : "p"),
-                    a.d !== undefined ? a.d + "D" : a.p + "P");
-      box.appendChild(chip);
+      if (a.p !== undefined) {
+        var p = a.p + (u.charged ? 1 : 0);
+        out.atk = p + "P";
+        out.master = Math.max(0, p - E.RULES.masterShield);
+        out.unit = p;
+      } else {
+        out.atk = a.d + "D";
+        out.master = a.d;
+        out.unit = a.d;
+      }
     }
-    if (c.skill && c.skill.impl !== false && (!c.skill.minLv || u.lv >= c.skill.minLv)) {
-      var sp = c.skill.power && c.skill.power[u.lv];
-      var cost = E.skillCostOf(u, c.skill);
-      box.appendChild(el("span", "chip", (sp ? (sp.d !== undefined ? sp.d + "D" : sp.p + "P") : "技") + "石" + cost));
+    var sk = c.skill;
+    if (sk && sk.effect === "attack" && sk.power && sk.power[u.lv] &&
+        !(sk.minLv && u.lv < sk.minLv)) {
+      var sp = sk.power[u.lv];
+      var val = sp.p !== undefined ? sp.p : sp.d;          // 特技にきあいだめは乗らない
+      out.skill = {
+        label: (sp.p !== undefined ? sp.p + "P" : sp.d + "D"),
+        cost: E.skillCostOf(u, sk),
+        master: sp.p !== undefined ? Math.max(0, sp.p - E.RULES.masterShield) : sp.d,
+        unit: val
+      };
+    }
+    return out;
+  }
+
+  /* レベルの表示。「Lv2/3」のように、いまと最大がひと目で分かるようにする */
+  function levelBadge(u) {
+    var c = card(u.cardId);
+    var box = el("div", "lv");
+    var isMax = u.lv >= c.maxLv;
+    var b = el("span", "lvnum" + (isMax ? " max" : ""), "Lv" + u.lv + "/" + c.maxLv);
+    b.title = isMax ? "これ以上あがらない" : "あと" + (c.maxLv - u.lv) + "回あがる";
+    box.appendChild(b);
+    return box;
+  }
+
+  function unitStats(u, side) {
+    var c = card(u.cardId);
+    var d = damageProfile(u);
+    var box = el("div", "stats");
+    if (d.atk) {
+      var a1 = el("span", "chip p", d.atk + (d.charged ? "!" : ""));
+      a1.title = "通常攻撃" + (d.charged ? "（きあいだめで+1P）" : "");
+      box.appendChild(a1);
+      // マスターには2Pのたてがあるので、実際に通る数を別に出す
+      var m1 = el("span", "chip m", "マ" + d.master);
+      m1.title = "マスターに通るダメージ（たて2Pを引いたあと）";
+      box.appendChild(m1);
+    }
+    if (d.skill) {
+      var s1 = el("span", "chip d", "技" + d.skill.label + "→マ" + d.skill.master);
+      s1.title = "とくぎ（石" + d.skill.cost + "）";
+      box.appendChild(s1);
+    } else if (c.skill && (!c.skill.minLv || u.lv >= c.skill.minLv)) {
+      box.appendChild(el("span", "chip", "技石" + E.skillCostOf(u, c.skill)));
     }
     box.appendChild(el("span", "hpt", u.hp + "/" + c.lv[u.lv].hp));
     return box;
   }
+
+  /* 盤面はせまいので、くわしい内訳は情報パネルにまかせる */
 
   function slotEl(u, side, row, col) {
     var b = el("button", "slot");
@@ -3358,10 +4013,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     var head = el("div");
     head.appendChild(el("div", "mname", c.name));
-    var stars = "";
-    var maxL = c.maxLv;
-    for (var i = 1; i <= Math.max(maxL, u.lv); i++) { stars += i <= u.lv ? "★" : "☆"; }
-    head.appendChild(el("div", "lv", stars));
+    head.appendChild(levelBadge(u));
     b.appendChild(head);
     var bar = el("div", "hpbar");
     var fill = el("i");
@@ -3762,6 +4414,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         var c = card(u.cardId);
         setHint("<b>" + c.name + "</b>　" + (c.skill ? c.skill.name + "：" + c.skill.text : c.text || ""));
       }
+    } else if (!App.tutor) {
+      setHint("マスの数字：<b>3P</b>=こうげき　<b>マ1</b>=マスターに通るぶん（たて2Pを引いた数）　<b>Lv2/2</b>=いま/さいだい");
     } else {
       setHint("");
     }
@@ -3791,6 +4445,94 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     var end = $("act-end");
     end.disabled = !mine;
     end.onclick = onEndTurn;
+
+    // ストーンをたくさん持っているときだけ、マスターの回復ボタンを出す
+    var hb = $("act-heal");
+    var p = s.players[me];
+    var canHeal = mine && p.stones >= E.RULES.masterHealCost && p.hp < E.RULES.masterHp;
+    hb.hidden = !(mine && p.hp < E.RULES.masterHp);
+    hb.disabled = !canHeal;
+    hb.textContent = canHeal
+      ? "マスターを かいふく（石" + E.RULES.masterHealCost + " → HP+" + E.RULES.masterHealAmount + "）"
+      : "マスターの かいふくには 石" + E.RULES.masterHealCost + "こ 必要（いま " + p.stones + "）";
+    hb.onclick = function () {
+      drainEvents();
+      var r = E.masterHeal(s, s.active);
+      if (!r.ok) { setHint(r.why); return; }
+      var evs = drainEvents();
+      render();
+      playEvents(evs);
+    };
+  }
+
+  /* ================= ターンのはじまりの表示と 持ち時間 ================= */
+
+  function showBanner(text, isFoe) {
+    var b = $("g-banner");
+    b.hidden = false;
+    b.className = "turnbanner" + (isFoe ? " foe" : "");
+    b.textContent = text;
+    // アニメを撃ち直す
+    b.style.animation = "none";
+    void b.offsetWidth;
+    b.style.animation = "";
+    clearTimeout(App.bannerTimer);
+    App.bannerTimer = setTimeout(function () { b.hidden = true; }, 1700);
+  }
+
+  function clearClock() {
+    if (App.clockId) { clearInterval(App.clockId); App.clockId = null; }
+    $("g-clock").textContent = "";
+    $("g-clock").classList.remove("warn");
+  }
+
+  function startClock() {
+    clearClock();
+    if (!App.state || App.state.winner !== null) { return; }
+    if (!isHuman(App.state.active)) { return; }     // CPUの番は計らない
+    if (App.tutor) { return; }                      // チュートリアルは急かさない
+    App.clockLeft = App.turnSeconds;
+    paintClock();
+    App.clockId = setInterval(function () {
+      App.clockLeft--;
+      paintClock();
+      if (App.clockLeft <= 10 && App.clockLeft > 0) { Snd.sfx("click"); }
+      if (App.clockLeft <= 0) {
+        clearClock();
+        forceEndTurn();
+      }
+    }, 1000);
+  }
+
+  function paintClock() {
+    var n = $("g-clock");
+    n.innerHTML = "のこり <b>" + Math.max(0, App.clockLeft) + "</b>秒";
+    n.classList.toggle("warn", App.clockLeft <= 10);
+  }
+
+  /* 時間切れ。何が残っていても強制的にターンを渡す */
+  function forceEndTurn() {
+    var s = App.state;
+    if (!s || s.winner !== null) { return; }
+    closeOverlay("ov-endturn");
+    closeOverlay("ov-carddetail");
+    // レベルアップの選択が残っていたら「しない」で流す
+    var guard = 0;
+    while (s.pending && guard++ < 12) { E.resolveLevelUp(s, { accept: false }); }
+    closeOverlay("ov-levelup");
+    // 手札が多すぎるなら先頭から捨てる
+    var g2 = 0;
+    while (s.players[s.active].hand.length > E.RULES.handLimit && g2++ < 10) {
+      E.discard(s, s.active, 0);
+    }
+    closeOverlay("ov-discard");
+    App.sel = null;
+    App.info = null;
+    Snd.sfx("turn");
+    E.endTurn(s);
+    render();
+    setHint("時間切れで ターンを わたしました");
+    afterTurnChange(false);
   }
 
   /* ---------- ターン終了 ---------- */
@@ -3825,7 +4567,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     $("et-cancel").onclick = function () { closeOverlay("ov-endturn"); };
     $("et-ok").onclick = function () {
       closeOverlay("ov-endturn");
-    closeOverlay("ov-carddetail");
+      closeOverlay("ov-carddetail");
+      clearClock();
       App.sel = null;
       App.info = null;
       E.endTurn(s);
@@ -3842,11 +4585,18 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     if (isHuman(s.active)) {
       if (App.mode === "human" && !isStart) { openHandoff(); }
-      else { App.view = s.active; render(); }
+      else {
+        App.view = s.active;
+        render();
+        showBanner(sideName(s.active) + " のターン", false);
+        startClock();
+      }
       return;
     }
+    clearClock();
     App.view = App.humanSides[0];
     render();
+    showBanner(sideName(s.active) + " のターン", true);
     runCpuTurn();
   }
 
@@ -3913,8 +4663,11 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     App.decks = [deck.slice(), deck.slice()];
     App.deckKeys = ["tutorial", "tutorial"];
 
-    App.state = E.createGame(App.decks[0], App.decks[1], { seed: 1, nameA: "じぶん", nameB: "あいて" });
+    App.firstPlayer = 0;
+    App.state = E.createGame(App.decks[0], App.decks[1], { seed: 1, first: 0, nameA: "じぶん", nameB: "あいて" });
     var s = App.state;
+    s.players[0].mulliganDone = true;
+    s.players[1].mulliganDone = true;
 
     // 決まった盤面にする
     s.players[0].hand = [1, 4, 7, 17, 18];
@@ -3933,6 +4686,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     App.busy = false;
     show("game");
     render();
+    clearClock();
   }
 
   function endTutorial() {
@@ -3988,8 +4742,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       return;
     }
 
-    $("g-hint").innerHTML = "あいてが かんがえています…";
-    await sleep(500);
+    setHint(sideName(s.active) + " が かんがえています…");
+    await sleep(450);
 
     var guard = 0;
     while (s.winner === null && !isHuman(s.active) && guard++ < 60) {
@@ -3997,13 +4751,18 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       var a = AI.pickAction(s, s.active, App.cpuLevel);
       if (!a || a.type === "end") { break; }
       drainEvents();
+      var logAt = s.log.length;
       if (!E.perform(s, s.active, a).ok) { break; }
       AI.resolvePending(s, App.cpuLevel);
       var evs = drainEvents();
+      var said = s.log.slice(logAt);
       render();
       playEvents(evs);
-      $("g-hint").innerHTML = "あいてが かんがえています…";
-      await sleep(evs.length ? 900 : 560);
+      // 何をしたのかを そのまま見せる
+      setHint(said.length
+        ? said.slice(0, 2).map(function (x) { return x.replace(/^T\\d+\\s*/, ""); }).join("　／　")
+        : sideName(s.active) + " が うごきました");
+      await sleep(evs.length ? 950 : 620);
     }
     if (s.winner === null) {
       AI.trimHand(s, s.active, App.cpuLevel);
@@ -4102,7 +4861,10 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       closeOverlay("ov-handoff");
       App.view = s.active;
       App.sel = null;
+      App.info = null;
       render();
+      showBanner(sideName(s.active) + " のターン", false);
+      startClock();
     };
     openOverlay("ov-handoff");
   }
@@ -4111,6 +4873,7 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
   function finish() {
     var s = App.state;
+    clearClock();
     closeOverlay("ov-levelup");
     closeOverlay("ov-discard");
     closeOverlay("ov-handoff");
@@ -4193,6 +4956,8 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
         document.getElementById("mode-cpu").click();
         document.getElementById("level-list").children[1].click();
         document.getElementById("deck-list").children[0].click();
+        var dvgo = document.getElementById("dv-go"); if (dvgo) { dvgo.click(); }
+        var tg = document.getElementById("toss-go"); if (tg) { tg.click(); }
         var s = window.App.state;
         // 何手か進めて、盤面に駒が並んだ状態にする
         var acts = window.Engine.listActions(s, 0);
@@ -4335,8 +5100,10 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
 
     click($("mode-cpu"));
     ok("CPUの強さ選択に進む", visible("scr-level"));
-    ok("強さが3つ並ぶ", $("level-list").children.length === 3,
+    ok("強さが5つ並ぶ", $("level-list").children.length === 5,
        "実際は" + $("level-list").children.length);
+    ok("すごくつよいがある", $("level-list").textContent.indexOf("すごくつよい") >= 0);
+    ok("悪魔がある", $("level-list").textContent.indexOf("悪魔") >= 0);
 
     $("level-list").children[1].click();          // ふつう
     ok("デッキ選択に進む", visible("scr-deck"));
@@ -4392,25 +5159,46 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
     ok("デッキ選択に戻れる", visible("scr-deck"));
     $("deck-list").children[0].click();
     click($("dv-go"));
+
+    // コイントス
+    ok("コイントスが出る", visible("scr-toss"));
+    click($("toss-go"));
+    await sleep(1400);
+    ok("先攻が決まった", $("toss-result").textContent.indexOf("先攻") >= 0,
+       $("toss-result").textContent);
+    click($("toss-go"));
+
+    // 手札の入れ替え
+    ok("手札の入れ替え画面が出る", visible("scr-mulligan"));
+    ok("手札が5枚ならぶ", $("mul-hand").children.length === 5);
+    ok("何も選んでいないと入れ替えボタンが押せない", $("mul-go").disabled);
+    var handBefore = App.state.players[0].hand.slice();
+    $("mul-hand").children[0].click();
+    $("mul-hand").children[1].click();
+    ok("2枚えらべた", $("mul-stat").textContent.indexOf("2") >= 0, $("mul-stat").textContent);
+    ok("入れ替えボタンが押せる", !$("mul-go").disabled);
+    click($("mul-go"));
     ok("対戦画面に入る", visible("scr-game"));
+    ok("手札は5枚のまま", App.state.players[0].hand.length === 5,
+       "実際は" + App.state.players[0].hand.length);
+    ok("入れ替えは1回きり", E.canMulligan(App.state, 0) === false);
+    ok("山札は20-5=15枚のまま", App.state.players[0].deck.length === 15,
+       "実際は" + App.state.players[0].deck.length);
 
     var s = App.state;
     ok("初期手札5枚", s.players[0].hand.length === 5, "実際は" + s.players[0].hand.length);
     ok("マスターHP5", s.players[0].hp === 5);
-    ok("開始ストーン3", s.players[0].stones === 3, "実際は" + s.players[0].stones);
+    ok("開始ストーンは3以上", s.players[0].stones >= 3, "実際は" + s.players[0].stones);
     ok("盤面のマスが8つ描かれる", document.querySelectorAll("#g-board .slot").length === 8,
        "実際は" + document.querySelectorAll("#g-board .slot").length);
     ok("マスターのマスが2つ", document.querySelectorAll("#g-board .mastercell").length === 2);
     ok("手札のカードが5枚表示される", $("g-hand").children.length === 5);
 
-    // 召喚できる手札（スーパーカード以外）を探してタップ → 置けるマスが光る → 召喚
-    var playable = -1;
-    s.players[0].hand.forEach(function (id, i) {
-      if (playable < 0 && !window.cardById(id).super) { playable = i; }
-    });
-    ok("召喚できる手札がある", playable >= 0);
+    // コイントスでCPUが先攻になることがあるので、自分の番になるまで待つ
+    for (var wt = 0; wt < 80 && s.active !== 0 && s.winner === null; wt++) { await sleep(200); }
+    ok("自分の番になっている", s.active === 0, "active=" + s.active);
 
-    // スーパーカードは押しても光らないことも確かめる
+    // スーパーカードは押しても光らないことを確かめる
     var superIdx = -1;
     s.players[0].hand.forEach(function (id, i) {
       if (superIdx < 0 && window.cardById(id).super) { superIdx = i; }
@@ -4422,15 +5210,25 @@ button.small{font-size:12px; padding:8px 10px; border-radius:9px}
       $("g-hand").children[superIdx].click();   // 選択解除
     }
 
+    // 召喚できる手札（スーパーカード以外）を探してタップ → 置けるマスが光る → 召喚
+    var playable = -1;
+    s.players[0].hand.forEach(function (id, i) {
+      if (playable < 0 && !window.cardById(id).super) { playable = i; }
+    });
+    ok("召喚できる手札がある", playable >= 0);
+
+    var stonesBefore = s.players[0].stones;
     $("g-hand").children[playable].click();
     var picks = document.querySelectorAll("#g-board .slot.pick");
-    ok("手札を選ぶと置けるマスが光る", picks.length === 4, "光ったのは" + picks.length);
-    if (picks.length === 0) { report(); return; }
+    ok("手札を選ぶと置けるマスが光る", picks.length === 4,
+       "光=" + picks.length + " active=" + s.active + " view=" + App.view +
+       " 石=" + stonesBefore + " 選=" + playable);
 
     var before = s.players[0].hand.length;
     picks[0].click();
     ok("タップしたマスに召喚される", s.players[0].hand.length === before - 1);
-    ok("石が1減る", s.players[0].stones === 2, "実際は" + s.players[0].stones);
+    ok("石が1減る", s.players[0].stones === stonesBefore - 1,
+       stonesBefore + "→" + s.players[0].stones);
     var summoned = document.querySelector('#g-board .slot[data-side="self"] .veil');
     ok("召喚したては じゅんび中", !!summoned);
 
